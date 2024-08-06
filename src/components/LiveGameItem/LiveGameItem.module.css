@@ -1,0 +1,17 @@
+.gameItem {
+  background-color: #333;
+  border: 1px solid #444;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.button {
+  background-color: #00ff85;
+  color: #1a1a1a;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}

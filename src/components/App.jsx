@@ -1,13 +1,21 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 
-import Header from "./Header/Header";
+import HomePage from "../pages/HomePage/HomePage";
+import LiveGamePage from "../pages/LiveGamePage/LiveGamePage";
 
-function App() {
+import GlobalStyle from "../styles/GlobalStyle";
+
+const App = () => {
   return (
     <>
-      <Header username="Football" />
+      <GlobalStyle />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/game/:gameId" element={<LiveGamePage />} />
+      </Routes>
     </>
   );
-}
+};
 
 export default App;
