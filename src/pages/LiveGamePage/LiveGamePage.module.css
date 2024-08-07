@@ -14,6 +14,10 @@
   margin-bottom: 20px;
 }
 
+.videoPlayer {
+  margin: 20px 0;
+}
+
 .tagList {
   list-style-type: none;
   padding: 0;

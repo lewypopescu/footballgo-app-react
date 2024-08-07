@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+
 import TaggingForm from "../../components/TaggingForm/TaggingForm";
+import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
+
 import styles from "./LiveGamePage.module.css";
 
 const LiveGamePage = () => {
@@ -8,22 +11,31 @@ const LiveGamePage = () => {
   const [tags, setTags] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
   const [startTime, setStartTime] = useState(null);
+  const playerRef = useRef(null);
 
   const handleStartGame = () => {
+    const now = new Date();
     setGameStarted(true);
-    setStartTime(new Date());
+    setStartTime(now);
   };
 
-  const handleSaveTag = (tag, team) => {
-    const currentTime = new Date();
-    const timeElapsed = Math.floor((currentTime - startTime) / 60000);
-    const newTag = {
-      id: tags.length + 1,
-      time: timeElapsed,
-      tag,
-      team,
-    };
-    setTags([...tags, newTag]);
+  const handleSaveTag = (team, tag) => {
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
+      const minutes = Math.floor(currentTime / 60);
+      const seconds = Math.floor(currentTime % 60);
+
+      const newTag = {
+        id: tags.length + 1,
+        time: `${minutes}:${seconds}`,
+        team,
+        tag,
+      };
+
+      setTags([...tags, newTag]);
+    } else {
+      console.error("Player is not ready yet.");
+    }
   };
 
   return (
@@ -34,12 +46,20 @@ const LiveGamePage = () => {
           Start Game
         </button>
       )}
-      {gameStarted && <TaggingForm onSaveTag={handleSaveTag} />}
-      <ul className={styles.tagList}>
-        {tags.map((tag) => (
-          <li key={tag.id}>{`${tag.time}’ - ${tag.tag} (${tag.team})`}</li>
-        ))}
-      </ul>
+      {gameStarted && (
+        <>
+          <p>Game started at: {startTime.toLocaleTimeString()}</p>
+          <YouTubeVideo videoId="JgVxiYyIBiU" ref={playerRef} />
+          <TaggingForm onSaveTag={handleSaveTag} />
+          <ul className={styles.tagList}>
+            {tags.map((tag) => (
+              <li key={tag.id}>
+                Time: {tag.time} - Team: {tag.team} Tag: {tag.tag}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
