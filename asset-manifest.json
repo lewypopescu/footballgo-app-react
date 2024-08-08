@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/my-pitch-app-react/static/css/main.aeb54cc9.css",
-    "main.js": "/my-pitch-app-react/static/js/main.29447ebe.js",
+    "main.css": "/my-pitch-app-react/static/css/main.61bb560c.css",
+    "main.js": "/my-pitch-app-react/static/js/main.a44e8d87.js",
+    "static/media/footballgo.webp": "/my-pitch-app-react/static/media/footballgo.d2d233fe238d1ec15f2e.webp",
     "index.html": "/my-pitch-app-react/index.html",
-    "main.aeb54cc9.css.map": "/my-pitch-app-react/static/css/main.aeb54cc9.css.map",
-    "main.29447ebe.js.map": "/my-pitch-app-react/static/js/main.29447ebe.js.map"
+    "main.61bb560c.css.map": "/my-pitch-app-react/static/css/main.61bb560c.css.map",
+    "main.a44e8d87.js.map": "/my-pitch-app-react/static/js/main.a44e8d87.js.map"
   },
   "entrypoints": [
-    "static/css/main.aeb54cc9.css",
-    "static/js/main.29447ebe.js"
+    "static/css/main.61bb560c.css",
+    "static/js/main.a44e8d87.js"
   ]
 }
