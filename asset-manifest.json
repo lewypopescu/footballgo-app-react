@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/my-pitch-app-react/static/css/main.49700881.css",
-    "main.js": "/my-pitch-app-react/static/js/main.49d45968.js",
+    "main.css": "/my-pitch-app-react/static/css/main.aeb54cc9.css",
+    "main.js": "/my-pitch-app-react/static/js/main.29447ebe.js",
     "index.html": "/my-pitch-app-react/index.html",
-    "main.49700881.css.map": "/my-pitch-app-react/static/css/main.49700881.css.map",
-    "main.49d45968.js.map": "/my-pitch-app-react/static/js/main.49d45968.js.map"
+    "main.aeb54cc9.css.map": "/my-pitch-app-react/static/css/main.aeb54cc9.css.map",
+    "main.29447ebe.js.map": "/my-pitch-app-react/static/js/main.29447ebe.js.map"
   },
   "entrypoints": [
-    "static/css/main.49700881.css",
-    "static/js/main.49d45968.js"
+    "static/css/main.aeb54cc9.css",
+    "static/js/main.29447ebe.js"
   ]
 }
