@@ -1,6 +1,7 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+.videoWrapper {
+  width: 100%;
+}
+
+.youtubePlayer {
+  width: 100%;
 }

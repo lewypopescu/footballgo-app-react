@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { setUsername } from "../../store/userSlice";
 import styles from "./LoginPage.module.css";
 
-const LoginPage = ({ setUser }) => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setUser(email.split("@")[0]);
-    navigate("/");
+    const username = email.split("@")[0];
+    dispatch(setUsername(username));
+    navigate("/home");
   };
 
   return (

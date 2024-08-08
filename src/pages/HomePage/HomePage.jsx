@@ -1,13 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import Header from "../../components/Header/Header";
 import LiveGameItem from "../../components/LiveGameItem/LiveGameItem";
-
 import styles from "./HomePage.module.css";
 
 const HomePage = () => {
+  const username = useSelector((state) => state.user.username);
   const navigate = useNavigate();
+
   const games = [
     {
       id: 1,
@@ -35,15 +36,19 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      <Header username="mypitch App" />
-      {games.map((game) => (
-        <LiveGameItem
-          key={game.id}
-          clubName={game.clubName}
-          startTime={game.startTime}
-          onEnterDugout={() => handleEnterDugout(game.id, game.videoId)}
-        />
-      ))}
+      <Header />
+      <h1>Welcome, {username}!</h1>
+      <div className={styles.gamesList}>
+        {games.map((game) => (
+          <div key={game.id} className={styles.gameItem}>
+            <LiveGameItem
+              clubName={game.clubName}
+              startTime={game.startTime}
+              onEnterDugout={() => handleEnterDugout(game.id, game.videoId)}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

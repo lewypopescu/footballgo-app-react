@@ -11,12 +11,10 @@ const LiveGamePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const videoId = new URLSearchParams(location.search).get("videoId");
-
   const [tags, setTags] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const playerRef = useRef(null);
-
   const dispatch = useDispatch();
   const gameState = useSelector((state) => state.game.games[gameId]);
 
@@ -24,6 +22,9 @@ const LiveGamePage = () => {
     const now = new Date();
     setGameStarted(true);
     setStartTime(now);
+    if (playerRef.current && playerRef.current.playVideo) {
+      playerRef.current.playVideo();
+    }
   };
 
   const handleSaveTag = (team, tag) => {
@@ -52,14 +53,10 @@ const LiveGamePage = () => {
       setTags(gameState.tags);
     }
 
-    if (
-      gameState?.currentTime &&
-      playerRef.current &&
-      playerRef.current.seekTo
-    ) {
+    if (gameState?.currentTime && playerRef.current) {
       playerRef.current.seekTo(parseFloat(gameState.currentTime), true);
     }
-  }, [gameState?.tags, gameState?.currentTime, playerRef]);
+  }, [gameState?.tags, gameState?.currentTime]);
 
   const handleBack = () => {
     if (playerRef.current && playerRef.current.getCurrentTime) {
@@ -82,19 +79,32 @@ const LiveGamePage = () => {
         </button>
       )}
       {gameStarted && (
-        <div className={styles.content}>
+        <div className={styles.videoContainer}>
           <YouTubeVideo videoId={videoId} ref={playerRef} />
-          <div className={styles.taggingSection}>
-            <TaggingForm onSaveTag={handleSaveTag} />
-            <ul className={styles.tagList}>
+        </div>
+      )}
+      {gameStarted && (
+        <div className={styles.taggingContainer}>
+          <TaggingForm onSaveTag={handleSaveTag} />
+          <h3>Tags</h3>
+          <table className={styles.tagTable}>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Team</th>
+                <th>Tag</th>
+              </tr>
+            </thead>
+            <tbody>
               {tags.map((tag) => (
-                <li key={tag.id} className={styles.tagItem}>
-                  <strong>Time:</strong> {tag.time} – <strong>Team:</strong>{" "}
-                  {tag.team} <strong>Tag:</strong> {tag.tag}
-                </li>
+                <tr key={tag.id}>
+                  <td>{tag.time}</td>
+                  <td>{tag.team}</td>
+                  <td>{tag.tag}</td>
+                </tr>
               ))}
-            </ul>
-          </div>
+            </tbody>
+          </table>
         </div>
       )}
     </div>

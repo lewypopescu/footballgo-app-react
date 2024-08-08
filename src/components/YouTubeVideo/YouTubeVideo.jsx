@@ -4,10 +4,34 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
+import styles from "./YouTubeVideo.module.css";
 
 const YouTubeVideo = forwardRef(({ videoId }, ref) => {
   const playerRef = useRef(null);
   const playerReady = useRef(false);
+
+  useImperativeHandle(ref, () => ({
+    getCurrentTime: () => {
+      if (playerReady.current && playerRef.current) {
+        return playerRef.current.getCurrentTime();
+      }
+      return null;
+    },
+    seekTo: (seconds) => {
+      if (playerReady.current && playerRef.current) {
+        playerRef.current.seekTo(seconds, true);
+      } else {
+        console.error("Player is not ready or method is not available.");
+      }
+    },
+    playVideo: () => {
+      if (playerReady.current && playerRef.current) {
+        playerRef.current.playVideo();
+      } else {
+        console.error("Player is not ready or method is not available.");
+      }
+    },
+  }));
 
   useEffect(() => {
     const loadYouTubeAPI = () => {
@@ -37,39 +61,15 @@ const YouTubeVideo = forwardRef(({ videoId }, ref) => {
     }
 
     return () => {
-      if (playerRef.current) {
+      if (window.YT && playerRef.current) {
         playerRef.current.destroy();
       }
     };
   }, [videoId]);
 
-  useImperativeHandle(ref, () => ({
-    getCurrentTime: () => {
-      if (
-        playerReady.current &&
-        playerRef.current &&
-        playerRef.current.getCurrentTime
-      ) {
-        return playerRef.current.getCurrentTime();
-      }
-      return null;
-    },
-    seekTo: (seconds) => {
-      if (
-        playerReady.current &&
-        playerRef.current &&
-        playerRef.current.seekTo
-      ) {
-        playerRef.current.seekTo(seconds, true);
-      } else {
-        console.error("Player is not ready or method is not available.");
-      }
-    },
-  }));
-
   return (
-    <div>
-      <div id={`youtube-player-${videoId}`} />
+    <div className={styles.videoWrapper}>
+      <div id={`youtube-player-${videoId}`} className={styles.youtubePlayer} />
     </div>
   );
 });
