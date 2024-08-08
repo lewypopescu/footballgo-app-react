@@ -7,6 +7,7 @@ import React, {
 
 const YouTubeVideo = forwardRef(({ videoId }, ref) => {
   const playerRef = useRef(null);
+  const playerReady = useRef(false);
 
   useEffect(() => {
     const loadYouTubeAPI = () => {
@@ -16,26 +17,53 @@ const YouTubeVideo = forwardRef(({ videoId }, ref) => {
       document.body.appendChild(script);
     };
 
-    loadYouTubeAPI();
-
-    window.onYouTubeIframeAPIReady = () => {
+    const onYouTubeIframeAPIReady = () => {
       playerRef.current = new window.YT.Player(`youtube-player-${videoId}`, {
         videoId: videoId,
         events: {
           onReady: () => {
             console.log("Player ready");
+            playerReady.current = true;
           },
         },
       });
+    };
+
+    if (!window.YT) {
+      window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+      loadYouTubeAPI();
+    } else {
+      onYouTubeIframeAPIReady();
+    }
+
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.destroy();
+      }
     };
   }, [videoId]);
 
   useImperativeHandle(ref, () => ({
     getCurrentTime: () => {
-      if (playerRef.current && playerRef.current.getCurrentTime) {
+      if (
+        playerReady.current &&
+        playerRef.current &&
+        playerRef.current.getCurrentTime
+      ) {
         return playerRef.current.getCurrentTime();
       }
       return null;
+    },
+    seekTo: (seconds) => {
+      if (
+        playerReady.current &&
+        playerRef.current &&
+        playerRef.current.seekTo
+      ) {
+        playerRef.current.seekTo(seconds, true);
+      } else {
+        console.error("Player is not ready or method is not available.");
+      }
     },
   }));
 
