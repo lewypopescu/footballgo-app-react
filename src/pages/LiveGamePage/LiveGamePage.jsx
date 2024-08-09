@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -15,9 +15,9 @@ const LiveGamePage = () => {
   const videoId = new URLSearchParams(location.search).get("videoId");
   const clubName =
     new URLSearchParams(location.search).get("clubName") || "Default Club Name";
-  const teams = new URLSearchParams(location.search)
-    .get("teams")
-    ?.split(",") || ["Team A", "Team B"];
+  const teams = useMemo(() => {
+    return new URLSearchParams(location.search).get("teams")?.split(",") || [];
+  }, [location.search]);
   const [tags, setTags] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
   const [startTime, setStartTime] = useState(null);
