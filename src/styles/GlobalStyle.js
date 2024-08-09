@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border-radius: 9px;
     transition: background-color 0.3s ease;
+     margin-top: 9px; 
   }
 
   button:hover {

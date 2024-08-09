@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setGameTags, setGameCurrentTime } from "../../store/gameSlice";
-import TaggingForm from "../../components/TaggingForm/TaggingForm";
+
 import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
+import TaggingForm from "../../components/TaggingForm/TaggingForm";
+import { setGameTags, setGameCurrentTime } from "../../store/gameSlice";
+
 import styles from "./LiveGamePage.module.css";
 
 const LiveGamePage = () => {
@@ -11,12 +13,33 @@ const LiveGamePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const videoId = new URLSearchParams(location.search).get("videoId");
+  const clubName =
+    new URLSearchParams(location.search).get("clubName") || "Default Club Name";
+  const teams = new URLSearchParams(location.search)
+    .get("teams")
+    ?.split(",") || ["Team A", "Team B"];
   const [tags, setTags] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
   const [startTime, setStartTime] = useState(null);
   const playerRef = useRef(null);
   const dispatch = useDispatch();
   const gameState = useSelector((state) => state.game.games[gameId]);
+
+  useEffect(() => {
+    if (!videoId || !teams) {
+      console.error("videoId or teams not found in URL");
+    }
+  }, [videoId, teams]);
+
+  useEffect(() => {
+    if (gameState?.tags) {
+      setTags(gameState.tags);
+    }
+
+    if (gameState?.currentTime && playerRef.current) {
+      playerRef.current.seekTo(parseFloat(gameState.currentTime), true);
+    }
+  }, [gameState?.tags, gameState?.currentTime]);
 
   const handleStartGame = () => {
     const now = new Date();
@@ -41,22 +64,13 @@ const LiveGamePage = () => {
       };
 
       const updatedTags = [...(gameState?.tags || []), newTag];
+      setTags(updatedTags);
       dispatch(setGameTags({ gameId, tags: updatedTags }));
       dispatch(setGameCurrentTime({ gameId, currentTime }));
     } else {
       console.error("Player is not ready yet.");
     }
   };
-
-  useEffect(() => {
-    if (gameState?.tags) {
-      setTags(gameState.tags);
-    }
-
-    if (gameState?.currentTime && playerRef.current) {
-      playerRef.current.seekTo(parseFloat(gameState.currentTime), true);
-    }
-  }, [gameState?.tags, gameState?.currentTime]);
 
   const handleBack = () => {
     if (playerRef.current && playerRef.current.getCurrentTime) {
@@ -66,18 +80,22 @@ const LiveGamePage = () => {
     navigate(-1);
   };
 
+  const handleDeleteTag = (tagId) => {
+    const updatedTags = tags.filter((tag) => tag.id !== tagId);
+    setTags(updatedTags);
+    dispatch(setGameTags({ gameId, tags: updatedTags }));
+  };
+
   return (
     <div className={styles.container}>
-      <button onClick={handleBack} className={styles.button}>
+      <button onClick={handleBack} className={styles.backButton}>
         Back
       </button>
-      <h2>Game {gameId}</h2>
+      <h2>{clubName || "Game"}</h2>
+      <button onClick={handleStartGame} className={styles.button}>
+        Start Game
+      </button>
       {gameStarted && <p>Game started at: {startTime.toLocaleTimeString()}</p>}
-      {!gameStarted && (
-        <button onClick={handleStartGame} className={styles.button}>
-          Start Game
-        </button>
-      )}
       {gameStarted && (
         <div className={styles.videoContainer}>
           <YouTubeVideo videoId={videoId} ref={playerRef} />
@@ -85,22 +103,31 @@ const LiveGamePage = () => {
       )}
       {gameStarted && (
         <div className={styles.taggingContainer}>
-          <TaggingForm onSaveTag={handleSaveTag} />
-          <h3>Tags</h3>
+          <TaggingForm onSaveTag={handleSaveTag} teams={teams} />
+          <h3 className={styles.tags}>Tags</h3>
           <table className={styles.tagTable}>
             <thead>
               <tr>
-                <th>Time</th>
-                <th>Team</th>
-                <th>Tag</th>
+                <th className="time">Time</th>
+                <th className="team">Team</th>
+                <th className="tag">Tag</th>
+                <th className="delete">Action</th>
               </tr>
             </thead>
             <tbody>
               {tags.map((tag) => (
                 <tr key={tag.id}>
-                  <td>{tag.time}</td>
-                  <td>{tag.team}</td>
-                  <td>{tag.tag}</td>
+                  <td className="time">{tag.time}</td>
+                  <td className="team">{tag.team}</td>
+                  <td className="tag">{tag.tag}</td>
+                  <td className="delete">
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => handleDeleteTag(tag.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

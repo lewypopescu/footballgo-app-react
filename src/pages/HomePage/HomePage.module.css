@@ -17,3 +17,17 @@
   border-radius: 8px;
   color: white;
 }
+
+.logOutButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #00ff85;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+}

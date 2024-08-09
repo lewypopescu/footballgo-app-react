@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+
 import footballgo from "../../images/footballgo.webp";
+
 import styles from "./Header.module.css";
 
 const Header = () => {

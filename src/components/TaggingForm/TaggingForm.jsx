@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+
 import styles from "./TaggingForm.module.css";
 
-const TaggingForm = ({ onSaveTag }) => {
-  const [team, setTeam] = useState("");
+const TaggingForm = ({ onSaveTag, teams }) => {
+  const [team, setTeam] = useState(teams[0]);
   const [tag, setTag] = useState("");
 
   const handleSubmit = (e) => {
@@ -12,13 +13,17 @@ const TaggingForm = ({ onSaveTag }) => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <input
-        type="text"
-        placeholder="Team"
+      <select
         value={team}
         onChange={(e) => setTeam(e.target.value)}
         className={styles.input}
-      />
+      >
+        {teams.map((teamName) => (
+          <option key={teamName} value={teamName}>
+            {teamName}
+          </option>
+        ))}
+      </select>
       <input
         type="text"
         placeholder="Add tag"
