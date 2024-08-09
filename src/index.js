@@ -6,9 +6,12 @@ import { Provider } from "react-redux";
 import App from "./components/App";
 import { store } from "./store/store";
 
+const basename =
+  process.env.NODE_ENV === "production" ? "/footballgo-app-react" : "";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <HashRouter basename="/footballgo-app-react">
+    <HashRouter basename={basename}>
       <Provider store={store}>
         <App />
       </Provider>
