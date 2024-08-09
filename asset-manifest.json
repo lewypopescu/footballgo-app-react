@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/footballgo-app-react/static/css/main.0ef651a1.css",
-    "main.js": "/footballgo-app-react/static/js/main.a7e008c3.js",
+    "main.js": "/footballgo-app-react/static/js/main.1f6e096a.js",
     "static/media/footballgo.webp": "/footballgo-app-react/static/media/footballgo.d2d233fe238d1ec15f2e.webp",
     "index.html": "/footballgo-app-react/index.html",
     "main.0ef651a1.css.map": "/footballgo-app-react/static/css/main.0ef651a1.css.map",
-    "main.a7e008c3.js.map": "/footballgo-app-react/static/js/main.a7e008c3.js.map"
+    "main.1f6e096a.js.map": "/footballgo-app-react/static/js/main.1f6e096a.js.map"
   },
   "entrypoints": [
     "static/css/main.0ef651a1.css",
-    "static/js/main.a7e008c3.js"
+    "static/js/main.1f6e096a.js"
   ]
 }
