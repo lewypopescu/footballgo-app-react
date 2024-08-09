@@ -43,6 +43,10 @@ const HomePage = () => {
     );
   };
 
+  const handleNavigateToQuestions = () => {
+    navigate("/questions");
+  };
+
   const handleLogOut = () => {
     navigate(0);
   };
@@ -76,6 +80,12 @@ const HomePage = () => {
           </div>
         ))}
       </div>
+      <button
+        onClick={handleNavigateToQuestions}
+        className={styles.questionsButton}
+      >
+        Questions
+      </button>
     </div>
   );
 };

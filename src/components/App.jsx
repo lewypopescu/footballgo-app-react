@@ -6,6 +6,7 @@ import Header from "../components/Header/Header";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import HomePage from "../pages/HomePage/HomePage";
 import LiveGamePage from "../pages/LiveGamePage/LiveGamePage";
+import QuestionsPage from "../pages/QuestionsPage/QuestionsPage";
 import { setUsername } from "../store/userSlice";
 
 import GlobalStyle from "../styles/GlobalStyle";
@@ -36,6 +37,7 @@ const App = () => {
         ) : (
           <>
             <Route path="/home" element={<HomePage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/game/:gameId" element={<LiveGamePage />} />
           </>
         )}
