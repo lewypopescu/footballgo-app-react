@@ -47,13 +47,17 @@ const HomePage = () => {
     navigate(0);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <div className={styles.container}>
       <Header />
       <button onClick={handleLogOut} className={styles.logOutButton}>
         Log Out
       </button>
-      <h1>Welcome, {username}!</h1>
+      <h1>Welcome, {capitalizeFirstLetter(username)}!</h1>
       <div className={styles.gamesList}>
         {games.map((game) => (
           <div key={game.id} className={styles.gameItem}>
