@@ -37,6 +37,7 @@ const App = () => {
           <>
             <Route path="/home" element={<HomePage />} />
             <Route path="/game/:gameId" element={<LiveGamePage />} />
+            <Route path="*" element={<LoginPage />} />
           </>
         )}
       </Routes>
