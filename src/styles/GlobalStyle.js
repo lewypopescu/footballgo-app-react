@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button {
-    background-color: #00FF85;
+    background-color:#009dff;
     color: #000000;
     border: none;
     padding: 10px 20px;
@@ -27,7 +27,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   button:hover {
-    background-color: #00cc68;
+    background-color: #0916d4;
+    color: white;
   }
 `;
 

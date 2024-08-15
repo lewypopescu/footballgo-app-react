@@ -25,10 +25,14 @@
 }
 
 .button {
-  background-color: #00ff85;
+  background-color: #009dff;
   color: #1a1a1a;
   padding: 10px;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0916d4;
 }
